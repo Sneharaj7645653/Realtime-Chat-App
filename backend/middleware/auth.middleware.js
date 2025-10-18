@@ -3,7 +3,9 @@ import User from '../models/user.model.js';
 
 export const protectRoute = async (req, res, next) => {
     try{
-        const token = req.cookeies.token || '';
+        const token = req?.cookies?.jwt || '';
+        console.log("Cookies:", req.cookies);
+        console.log("Token in middleware:", token);
         if(!token){
             return res.status(401).json({msg:"Not authorized, no token"});
         }
@@ -11,7 +13,7 @@ export const protectRoute = async (req, res, next) => {
         if(!decoded){
             return res.status(401).json({msg:"Not authorized, token failed"});
         }
-        const user = await User.findById(decoded.id).select('-password');
+        const user = await User.findById(decoded.userId).select('-password');
         if(!user){
             return res.status(401).json({msg:"Not authorized, user not found"});
         }

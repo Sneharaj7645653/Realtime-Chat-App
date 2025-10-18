@@ -97,3 +97,13 @@ export const updateProfile = async (req, res) => {
         return res.status(500).json({ msg: "Server error" });
     }
 }
+
+export const checkAuth = async (req, res) => {
+    try{
+        res.status(200).json({msg: "User is authenticated", user: req.user});
+    }
+    catch(err){
+        console.error(err);
+        return res.status(500).json({ msg: "Server error" });
+    }
+}
